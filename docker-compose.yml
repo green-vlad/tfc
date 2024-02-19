@@ -1,0 +1,40 @@
+version: "3.8"
+
+networks:
+  tfc-network:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/project:rw
+      - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - postgres
+    networks:
+      - tfc-network
+  app:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: app
+    volumes:
+      - ./app:/var/www/project
+    networks:
+      - tfc-network
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./db:/var/lib/pgsql/data
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+
