@@ -1,3 +1,12 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+calculate-price:
+    path: calculate-price
+    controller: App\Controller\PriceCalculator::calculate
+    methods: POST
+
+purchase:
+    path: purchase
+    controller: App\Controller\Purchaser::purchase
+    methods: POST
