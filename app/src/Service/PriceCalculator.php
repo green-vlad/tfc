@@ -9,14 +9,13 @@ use App\Exception\ProductNotFound;
 use App\Repository\CouponRepository;
 use App\Repository\ProductRepository;
 
-const COUNTRY_TAXES = [
-    'DE' => 19,
-    'IT' => 22,
-    'FR' => 2,
-    'GR' => 24
-];
-
 class PriceCalculator {
+    const COUNTRY_TAXES = [
+        'DE' => 19,
+        'IT' => 22,
+        'FR' => 2,
+        'GR' => 24
+    ];
 
     private $couponRepository;
     private $productRepository;
@@ -39,7 +38,7 @@ class PriceCalculator {
         } else {
             $priceWithDiscount = $product->getPrice();
         }
-        return round($priceWithDiscount * (1 + COUNTRY_TAXES[substr($req['taxNumber'], 0, 2)] / 100), 2);
+        return round($priceWithDiscount * (1 + self::COUNTRY_TAXES[substr($req['taxNumber'], 0, 2)] / 100), 2);
     }
 
     private function getCouponByCode($couponCode): Coupon

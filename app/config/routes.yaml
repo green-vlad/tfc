@@ -3,10 +3,10 @@
 #    controller: App\Controller\DefaultController::index
 calculate-price:
     path: calculate-price
-    controller: App\Controller\PriceCalculator::calculate
+    controller: App\Controller\PriceCalculatorController::calculate
     methods: POST
 
 purchase:
     path: purchase
-    controller: App\Controller\Purchaser::purchase
+    controller: App\Controller\PurchaseController::purchase
     methods: POST
