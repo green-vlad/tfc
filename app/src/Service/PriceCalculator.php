@@ -13,7 +13,7 @@ class PriceCalculator {
     const COUNTRY_TAXES = [
         'DE' => 19,
         'IT' => 22,
-        'FR' => 2,
+        'FR' => 20,
         'GR' => 24
     ];
 
