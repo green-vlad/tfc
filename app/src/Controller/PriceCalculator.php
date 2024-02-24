@@ -28,14 +28,18 @@ class PriceCalculator extends AbstractController
         $data = $request->toArray();
         $groups = new Assert\GroupSequence(['Default', 'custom']);
         $constraint = new Assert\Collection([
-            'product'   => new Assert\Positive(),
-            'taxNumber' => new Assert\Regex(self::TAX_NUMBER_REGEX),
-            'couponCode'    => new Assert\Regex(self::COUPON_REGEX),
+            'product'    => new Assert\Positive(),
+            'taxNumber'  => new Assert\Regex(self::TAX_NUMBER_REGEX),
+            'couponCode' => new Assert\Optional(new Assert\Regex(self::COUPON_REGEX)),
         ]);
         $violations = $this->validator->validate($data, $constraint, $groups);
         if ($violations->count() > 0) {
+            $errors['errors'] = [];
+            foreach ($violations as $violation) {
+                $errors['errors'][] = $violation->getPropertyPath() . " " . $violation->getMessage();
+            }
             return new JsonResponse(
-                ['error' => 'Tax number has wrong format'],
+                $errors,
                 Response::HTTP_BAD_REQUEST,
                 ['content-type' => 'application/json']
             );
@@ -46,7 +50,7 @@ class PriceCalculator extends AbstractController
             return new JsonResponse(['price' => $price]);
         } catch (Exception $e) {
             return new JsonResponse(
-                ['error' => $e->getMessage()],
+                ['errors' => [$e->getMessage()]],
                 Response::HTTP_BAD_REQUEST,
                 ['content-type' => 'application/json']
             );
