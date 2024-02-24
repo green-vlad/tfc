@@ -36,6 +36,11 @@ class AppFixtures extends Fixture
         $coupon->setDiscount("10.00");
         $manager->persist($coupon);
 
+        $coupon = new Coupon();
+        $coupon->setCouponType(1);
+        $coupon->setDiscount("6.00");
+        $manager->persist($coupon);
+
         $manager->flush();
     }
 }

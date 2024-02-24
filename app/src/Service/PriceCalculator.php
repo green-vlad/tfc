@@ -10,10 +10,10 @@ use App\Repository\CouponRepository;
 use App\Repository\ProductRepository;
 
 const COUNTRY_TAXES = [
-    'DE' => 0.19,
-    'IT' => 0.22,
-    'FR' => 0.2,
-    'GR' => 0.24
+    'DE' => 19,
+    'IT' => 22,
+    'FR' => 2,
+    'GR' => 24
 ];
 
 class PriceCalculator {
@@ -39,7 +39,7 @@ class PriceCalculator {
         } else {
             $priceWithDiscount = $product->getPrice();
         }
-        return round($priceWithDiscount / (1 - COUNTRY_TAXES[substr($req['taxNumber'], 0, 2)]), 2);
+        return round($priceWithDiscount * (1 + COUNTRY_TAXES[substr($req['taxNumber'], 0, 2)] / 100), 2);
     }
 
     private function getCouponByCode($couponCode): Coupon
