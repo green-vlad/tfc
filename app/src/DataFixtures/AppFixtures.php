@@ -26,6 +26,11 @@ class AppFixtures extends Fixture
         $case->setPrice(10);
         $manager->persist($case);
 
+        $mcbook = new Product();
+        $mcbook->setName('MacBook');
+        $mcbook->setPrice(3000);
+        $manager->persist($mcbook);
+
         $coupon = new Coupon();
         $coupon->setCouponType(0);
         $coupon->setDiscount("10.00");

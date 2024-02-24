@@ -1,3 +1,47 @@
+Разворачивание проекта:
+1. Запустить docker compose up -d --build
+2. Зайти в контейнер app и запустить там composer install
+3. Cоздать БД командой bin/console doctrine:database:create
+4. Загрузить фикстуры bin/console doctrine:fixtures:load
+
+CURL запросы для ручного тестирования:
+curl --location 'http://localhost:8080/calculate-price' \
+--header 'Content-Type: application/json' \
+--data '{
+"product": 1,
+"taxNumber": "FRRR123456719",
+"couponCode": "P10"
+}'
+
+curl --location 'http://localhost:8080/calculate-price' \
+--header 'Content-Type: application/json' \
+--data '{
+"product": 1,
+"taxNumber": "FRRR123456719",
+"couponCode": "D10",
+"paymentProcessor": "paypal"
+}'
+
+curl --location 'http://localhost:8080/purchase' \
+--header 'Content-Type: application/json' \
+--data '{
+"product": 1,
+"taxNumber": "IT12345678900",
+"couponCode": "P6",
+"paymentProcessor": "paypal"
+}
+'
+
+curl --location 'http://localhost:8080/purchase' \
+--header 'Content-Type: application/json' \
+--data '{
+"product": 4,
+"taxNumber": "IT12345678900",
+"couponCode": "P6",
+"paymentProcessor": "paypal"
+}
+'
+
 # Написать Symfony REST приложение для расчета цены продукта и проведения оплаты
 
 Необходимо написать 2 эндпоинта:
