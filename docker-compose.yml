@@ -22,8 +22,11 @@ services:
       context: .
       dockerfile: ./.docker/Dockerfile
     container_name: app
+    environment:
+      PHP_IDE_CONFIG: serverName=tfc
     volumes:
       - ./app:/var/www/project
+      - ./.docker/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     networks:
       - tfc-network
   postgres:
@@ -32,11 +35,12 @@ services:
     ports:
       - "6432:5432"
     volumes:
-      - ./db:/var/lib/pgsql/data
+      - ./db:/var/lib/pgsql/data:rw
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: postgres
       POSTGRES_DB: tfc
+      PGDATA: /var/lib/pgsql/data
     networks:
       - tfc-network
 
